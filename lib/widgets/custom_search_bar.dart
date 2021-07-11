@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+import './loading_button.dart';
+
 class CustomSearchBar extends StatefulWidget {
   final Function _executeOnCompleted;
   final bool _isEnabled;
+  final bool _isLoading;
 
-  CustomSearchBar(this._executeOnCompleted, [this._isEnabled = true]);
+  CustomSearchBar(this._executeOnCompleted, [this._isEnabled = true, this._isLoading = false]);
 
   @override
   _CustomSearchBarState createState() => _CustomSearchBarState();
@@ -42,7 +45,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                 enabled: widget._isEnabled,                                 // MIGHT BE ABLE TO USE ON CHANGED TO HAVE DYNAMIC SEARCH BAR
                 onSubmitted: (value) {
                   widget._executeOnCompleted(value);
-                  _controller.clear();
+                  // _controller.clear();
                 },
                 controller: _controller,
                 decoration: InputDecoration(
@@ -60,7 +63,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
               ),
             ),
           ),
-          Container(
+          widget._isLoading ? LoadingButton() : Container(
             width: 40.0,
             height: 40.0,
             margin: EdgeInsets.only(
@@ -73,7 +76,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
             child: IconButton(
               onPressed: !widget._isEnabled ? null : () {
                 widget._executeOnCompleted(_controller.text);
-                _controller.clear();
+                // _controller.clear();
                 FocusScope.of(context).unfocus();   // closes the keyboard
               },
               iconSize:

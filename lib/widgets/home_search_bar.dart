@@ -5,7 +5,6 @@ import 'package:spotify_app/providers/data.dart';
 import '../models/search_type.dart';
 import './custom_search_bar.dart';
 import './search_selection_bar.dart';
-import '../providers/spotify_api.dart';
 
 class HomeSearchBar extends StatefulWidget {
   @override
@@ -15,6 +14,7 @@ class HomeSearchBar extends StatefulWidget {
 class _HomeSearchBarState extends State<HomeSearchBar> {
   var _selectedTypes = [SearchType.ALBUM];
   var _enableSearchBar = true;
+  var _isLoading = false;
 
   void _updateSelectedTypes(List<SearchType> types) {
     _selectedTypes = types;
@@ -23,10 +23,14 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
     });
   }
 
-  void _trySearch(String query) async {
+  Future<void> _trySearch(String query) async {
     if (query.isEmpty) {
       return;
     }
+    
+    setState(() {
+      _isLoading = true;
+    });
     
     try {
       await Provider.of<Data>(context, listen: false).tryToSearch(query, _selectedTypes);    // call try to search in stored data
@@ -34,12 +38,16 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
       throw error;    // make this display something later
     }
 
+    setState(() {
+      _isLoading = false;
+    });
+
   }
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomSearchBar(_trySearch, _enableSearchBar),
+        _isLoading ? CustomSearchBar(_trySearch, _enableSearchBar, true) : CustomSearchBar(_trySearch, _enableSearchBar),
         SearchSelectionBar(_selectedTypes, _updateSelectedTypes),
       ],
     );

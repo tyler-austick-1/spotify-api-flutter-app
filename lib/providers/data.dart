@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
 
 import '../models/album.dart';
 import './spotify_api.dart';

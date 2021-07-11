@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../models/search_type.dart';
-
 class MusicInfoCard extends StatelessWidget {
   final String imageUrl;
   final String title;
