@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class MusicInfoCard extends StatelessWidget {
-  final String imageUrl;
+  // final String imageUrl;
+  final Image image;
   final String title;
   final String artistName;
   final String type; // might want to rename search type to something else
 
   const MusicInfoCard({
-    @required this.imageUrl,
+    // @required this.imageUrl,
+    @required this.image,
     @required this.title,
     @required this.artistName,
     @required this.type,
@@ -21,7 +23,7 @@ class MusicInfoCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: ListTile(
-          leading: Image.network(imageUrl),
+          leading: image,
           title: Text(title),
           subtitle: Text(artistName),
           trailing: Text('${type[0].toUpperCase()}${type.substring(1)}'),

@@ -1,12 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:quiver/core.dart';
 
-import 'package:spotify_app/models/album.dart';
-import 'package:spotify_app/models/artist.dart';
+import './album.dart';
 
 class Track {
   Album album;
-  List<Artist> artists;
+  Map<String, String> artists;
   // final List<String> availableMarkets;
   // final int discNumber;
   // final int durationInMilliseconds;
@@ -20,7 +20,7 @@ class Track {
   // final int popularity;
   // final Uri previewUrl;
   // final int trackNumber;
-  // final String type;
+  String type;
   // final String spotifyUri;
 
   Track(
@@ -36,6 +36,7 @@ class Track {
       @required this.id,
       // this.isLocal,
       @required this.name,
+      @required this.type,
       // this.popularity,
       // this.previewUrl,
       // this.trackNumber,
@@ -46,17 +47,19 @@ class Track {
   Track.fromJson(Album album, Map<String, dynamic> trackData) {
     this.album = album;
 
-    this.artists = [];
+    this.artists = {};
     final artistsList = trackData['artists'] as List<dynamic>;
     
     artistsList.forEach((element) { 
-      this.artists.add(Artist.fromJson(element));
+      // final Map<String, String> elementMap = {element['id']: element['name']};
+      this.artists[element['id']] = element['name'];
     });
 
     this.isExplicit = trackData['explicit'];
     this.href = Uri.parse(trackData['href'] as String);
     this.id = trackData['id'];
     this.name = trackData['name'];
+    this.type = trackData['type'];
   }
 
   @override
@@ -72,9 +75,9 @@ class Track {
     var string = "------------------------------------------------------------------\nTrack:\nid: $id\nname: $name\nhref: $href\nisExplicit: $isExplicit\n";
     string += this.album.toString();
     
-    this.artists.forEach((element) {
-      string += element.toString();
-    });
+    // this.artists.forEach((element) {
+    //   string += element.toString();
+    // });
 
     return string;
   }

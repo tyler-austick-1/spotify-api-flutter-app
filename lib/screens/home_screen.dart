@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify_app/models/artist.dart';
 
 import '../widgets/home_search_bar.dart';
 import '../widgets/music_info_card.dart';
 import '../providers/spotify_auth.dart';
 import '../providers/data.dart';
+import '../models/track.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -25,14 +27,29 @@ class HomeScreen extends StatelessWidget {
           Expanded(
             child: Consumer<Data>(
               builder: (ctx, data, _) => ListView.builder(
-                itemCount: data.albums.length,
+                itemCount: data.results.length,
                 itemBuilder: (ctx, index) {
-                  final currentAlbum = data.albums[index];
+                  final currentResult = data.results[index];
                   return MusicInfoCard(
-                      imageUrl: currentAlbum.images[0].url,
-                      title: currentAlbum.name,
-                      artistName: currentAlbum.artists[0].name,
-                      type: currentAlbum.albumType);
+                    image: currentResult is Track
+                        ? Image.network(currentResult.album.images[0].url)  // a Track uses its album's image
+                        : (currentResult.hasImages
+                            ? Image.network(currentResult.images[0].url)
+                            : Image.asset('images/spotify-logo.png')),    // uses default spotify logo if no images are found
+                    title: currentResult.name,
+                    artistName: currentResult is Artist
+                        ? ''
+                        : currentResult.artists.values.toList()[0],
+                    type: currentResult.type,
+                  );
+                  // return MusicInfoCard(
+                  //     // imageUrl: currentResult is Track ? currentResult.album.images[0].url :  currentResult.images[0].url,
+                  //     imageUrl: currentResult.images[0].url,
+                  //     title: currentResult.name,
+                  //     // artistName: currentResult is Artist ? '' : currentResult.artists[0].name,
+                  //     artistName: currentResult.artists.values.toList()[0],
+                  //     // type: currentResult.type);
+                  //     type: currentResult.albumType);
                 },
               ),
             ),

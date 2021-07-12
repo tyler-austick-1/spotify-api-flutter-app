@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:spotify_app/models/artist.dart';
 
 import '../models/album.dart';
 import '../models/track.dart';
@@ -31,17 +32,16 @@ class SpotifyAPI with ChangeNotifier {
       final track = Track.fromJson(album, data);
 
       print(track.toString());
-      
     } catch (error) {
       print(error);
       throw HttpException('Could not retrieve track. Please try again later.');
     }
   }
 
-  Future<List<Album>> search(String query, List<SearchType> searchTypes) async {
+  Future<List<dynamic>> search(String query) async {
     final queryParameters = {
       'q': query,
-      'type': _convertSearchTypes(searchTypes),
+      'type': 'track,artist,album',
     };
 
     final url = Uri.https('api.spotify.com', '/v1/search', queryParameters);
@@ -54,31 +54,92 @@ class SpotifyAPI with ChangeNotifier {
 
       final responseData = json.decode(response.body);
 
-      final List<Album> albums = [];
+      final List<dynamic> results = [];
+      // final List<Album> albums = [];
 
       final retrievedAlbums = responseData['albums'];
-      final retrievedItems = retrievedAlbums['items'] as List<dynamic>;
+      final retrievedAlbumItems = retrievedAlbums['items'] as List<dynamic>;
 
-      retrievedItems.forEach((element) { 
+      // print('RETRIEVED ALBUM ITEMS: $retrievedAlbumItems');
+
+      retrievedAlbumItems.forEach((element) {
         final elementAlbum = Album.fromJson(element);
 
-        albums.add(elementAlbum);
+        results.add(elementAlbum);
       });
-      return albums;
-      
+
+      final retrievedArtists = responseData['artists'];
+      final retrievedArtistItems = retrievedArtists['items'] as List<dynamic>;
+
+      // print('RETRIEVED ARTIST ITEMS: $retrievedArtistItems');
+
+      retrievedArtistItems.forEach((element) {
+        final elementArtist = Artist.fromJson(element);
+
+        results.add(elementArtist);
+      });
+
+      final retrievedTracks = responseData['tracks'];
+      final retrievedTrackItems = retrievedTracks['items'] as List<dynamic>;
+
+      // print('RETRIEVED TRACK ITEMS: $retrievedTrackItems');
+
+      retrievedTrackItems.forEach((element) {
+        final albumOfTrack = Album.fromJson(element['album']);
+        final elementTrack = Track.fromJson(albumOfTrack, element);
+
+        results.add(elementTrack);
+      });
+
+      return results;
     } catch (error) {
+      throw error;
       throw HttpException('Could not complete search. Please try again later.');
     }
   }
 
+  // Future<List<Album>> search(String query, List<SearchType> searchTypes) async {
+  //   final queryParameters = {
+  //     'q': query,
+  //     'type': _convertSearchTypes(searchTypes),
+  //   };
+
+  //   final url = Uri.https('api.spotify.com', '/v1/search', queryParameters);
+  //   print(url.query);
+
+  //   try {
+  //     final response = await http.get(url, headers: {
+  //       'Authorization': 'Bearer $_authToken',
+  //     });
+
+  //     final responseData = json.decode(response.body);
+
+  //     final List<Album> albums = [];
+
+  //     final retrievedAlbums = responseData['albums'];
+  //     final retrievedItems = retrievedAlbums['items'] as List<dynamic>;
+
+  //     retrievedItems.forEach((element) {
+  //       final elementAlbum = Album.fromJson(element);
+
+  //       albums.add(elementAlbum);
+  //     });
+
+  //     return albums;
+  //   } catch (error) {
+  //     throw error;
+  //     throw HttpException('Could not complete search. Please try again later.');
+  //   }
+  // }
+
   String _convertSearchTypes(List<SearchType> searchTypes) {
     var result = '';
 
-    searchTypes.forEach((element) { 
+    searchTypes.forEach((element) {
       result += (element.name.toLowerCase() + ',');
     });
 
-    result = result.substring(0, result.length-1);
+    result = result.substring(0, result.length - 1);
 
     return result;
   }

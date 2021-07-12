@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 
+import '../models/artist.dart';
 import '../models/album.dart';
 import './spotify_api.dart';
 import '../models/search_type.dart';
+import '../models/track.dart';
 
 // import '../models/track.dart';
 
@@ -15,24 +17,38 @@ class Data with ChangeNotifier {
     this.spotifyAPI = spotifyAPI;
   }
 
-  final List<Album> retrievedAlbums = [];
-  // final Map<String, Track> retrievedTracks = {};
+  List<dynamic> _retrievedResults = [];
+
+  List<Album> _retrievedAlbums = [];
+  List<Artist> _retrievedArtists = [];
+  List<Track> _retrievedTracks = [];
 
 
-  List<Album> get albums {
-    return [...retrievedAlbums];
+  List<dynamic> get results {
+    return [..._retrievedResults];
   }
 
+  List<Album> get albums {
+    return [..._retrievedAlbums];
+  }
+
+  void _setSearchResults(List<dynamic> results) {
+    _retrievedResults = results;
+    notifyListeners();
+  }
+
+
   void _addListOfALbums(List<Album> albums) {
-    retrievedAlbums.clear();
-    retrievedAlbums.addAll(albums);
+    _retrievedAlbums.clear();
+    _retrievedAlbums.addAll(albums);
     notifyListeners();
   }
 
   Future<void> tryToSearch(String query, List<SearchType> searchTypes) async {  // atm this only works for albums
     try {
-      final searchResultsList = await spotifyAPI.search(query, searchTypes);
-      _addListOfALbums(searchResultsList);
+      final searchResultsList = await spotifyAPI.search(query);
+      // _addListOfALbums(searchResultsList);
+      _setSearchResults(searchResultsList);
     } catch (error) {
       throw error;
     }
