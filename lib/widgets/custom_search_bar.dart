@@ -25,9 +25,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-        vertical: 6.0,
-        horizontal: 5.0,
+      margin: EdgeInsets.only(
+        top: 6.0,
+        left: 5.0,
+        right: 5.0,
+        bottom: 1.0,
       ),
       decoration: BoxDecoration(
         border: Border.all(

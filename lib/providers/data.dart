@@ -19,9 +19,9 @@ class Data with ChangeNotifier {
 
   List<dynamic> _retrievedResults = [];
 
-  List<Album> _retrievedAlbums = [];
-  List<Artist> _retrievedArtists = [];
-  List<Track> _retrievedTracks = [];
+  final List<Album> _retrievedAlbums = [];
+  final List<Artist> _retrievedArtists = [];
+  final List<Track> _retrievedTracks = [];
 
 
   List<dynamic> get results {
@@ -32,16 +32,38 @@ class Data with ChangeNotifier {
     return [..._retrievedAlbums];
   }
 
+  List<Artist> get artists {
+    return [..._retrievedArtists];
+  }
+
+  List<Track> get tracks {
+    return [..._retrievedTracks];
+  }
+
   void _setSearchResults(List<dynamic> results) {
     _retrievedResults = results;
+    sortIntoTypes();
     notifyListeners();
   }
 
+  void sortIntoTypes() {
+    if (_retrievedResults == null) {
+      return;
+    }
 
-  void _addListOfALbums(List<Album> albums) {
     _retrievedAlbums.clear();
-    _retrievedAlbums.addAll(albums);
-    notifyListeners();
+    _retrievedArtists.clear();
+    _retrievedTracks.clear();
+
+    _retrievedResults.forEach((element) { 
+      if (element is Album) {
+        _retrievedAlbums.add(element);
+      } else if (element is Artist) {
+        _retrievedArtists.add(element);
+      } else if (element is Track) {
+        _retrievedTracks.add(element);
+      }
+    });
   }
 
   Future<void> tryToSearch(String query, List<SearchType> searchTypes) async {  // atm this only works for albums

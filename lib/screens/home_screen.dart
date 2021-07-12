@@ -1,14 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify_app/models/artist.dart';
 
+import '../models/artist.dart';
+import '../models/search_type.dart';
+import '../widgets/selection_bar.dart';
 import '../widgets/home_search_bar.dart';
 import '../widgets/music_info_card.dart';
-import '../providers/spotify_auth.dart';
 import '../providers/data.dart';
 import '../models/track.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  var _selectedType = SearchType.ALL;
+
+  void _setSelectedType(int index) {
+    setState(() {
+      _selectedType = SearchType.values.toList()[index];
+    });
+  }
+
+  List<dynamic> _getCorrectList(Data data) {
+    switch (_selectedType) {
+      case SearchType.ALL:
+        return data.results;
+        break;
+      case SearchType.ALBUM:
+        return data.albums;
+        break;
+      case SearchType.ARTIST:
+        return data.artists;
+        break;
+      case SearchType.TRACK:
+        return data.tracks;
+        break;
+      default:
+        return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,37 +54,44 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           HomeSearchBar(),
+          // SearchSelectionBar(_selectedType, _setSelectedType),
+          Center(
+            child: SelectionBar(
+              labels: SearchType.values.map((e) => e.name).toList(),
+              onSelectionUpdated: _setSelectedType,
+              selectedTabColor: Theme.of(context).primaryColor,
+              textColor: Colors.black,
+            ),
+          ),
           SizedBox(
             height: 5,
           ),
           Expanded(
             child: Consumer<Data>(
-              builder: (ctx, data, _) => ListView.builder(
-                itemCount: data.results.length,
-                itemBuilder: (ctx, index) {
-                  final currentResult = data.results[index];
-                  return MusicInfoCard(
-                    image: currentResult is Track
-                        ? Image.network(currentResult.album.images[0].url)  // a Track uses its album's image
-                        : (currentResult.hasImages
-                            ? Image.network(currentResult.images[0].url)
-                            : Image.asset('images/spotify-logo.png')),    // uses default spotify logo if no images are found
-                    title: currentResult.name,
-                    artistName: currentResult is Artist
-                        ? ''
-                        : currentResult.artists.values.toList()[0],
-                    type: currentResult.type,
-                  );
-                  // return MusicInfoCard(
-                  //     // imageUrl: currentResult is Track ? currentResult.album.images[0].url :  currentResult.images[0].url,
-                  //     imageUrl: currentResult.images[0].url,
-                  //     title: currentResult.name,
-                  //     // artistName: currentResult is Artist ? '' : currentResult.artists[0].name,
-                  //     artistName: currentResult.artists.values.toList()[0],
-                  //     // type: currentResult.type);
-                  //     type: currentResult.albumType);
-                },
-              ),
+              builder: (ctx, data, _) {
+                return ListView.builder(
+                  itemCount: _getCorrectList(data).length,
+                  itemBuilder: (ctx, index) {
+                    final currentResult = _getCorrectList(data)[index];
+                    return MusicInfoCard(
+                      image: currentResult is Track
+                          ? (currentResult.album.hasImages
+                              ? Image.network(currentResult.album.images[0].url)
+                              : Image.asset(
+                                  'images/spotify-logo.png')) // a Track uses its album's image
+                          : (currentResult.hasImages
+                              ? Image.network(currentResult.images[0].url)
+                              : Image.asset(
+                                  'images/spotify-logo.png')), // uses default spotify logo if no images are found
+                      title: currentResult.name,
+                      artistName: currentResult is Artist
+                          ? ''
+                          : currentResult.artists.values.toList()[0],
+                      type: currentResult.type,
+                    );
+                  },
+                );
+              },
             ),
           ),
           SizedBox(
