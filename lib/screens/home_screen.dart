@@ -74,20 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (ctx, index) {
                     final currentResult = _getCorrectList(data)[index];
                     return MusicInfoCard(
-                      image: currentResult is Track
-                          ? (currentResult.album.hasImages
-                              ? Image.network(currentResult.album.images[0].url)
-                              : Image.asset(
-                                  'images/spotify-logo.png')) // a Track uses its album's image
-                          : (currentResult.hasImages
-                              ? Image.network(currentResult.images[0].url)
-                              : Image.asset(
-                                  'images/spotify-logo.png')), // uses default spotify logo if no images are found
-                      title: currentResult.name,
-                      artistName: currentResult is Artist
-                          ? ''
-                          : currentResult.artists.values.toList()[0],
-                      type: currentResult.type,
+                      musicObject: currentResult,
                     );
                   },
                 );

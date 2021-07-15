@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify_app/providers/spotify_api.dart';
 import 'package:spotify_app/providers/data.dart';
+import 'package:spotify_app/screens/music_data_screen.dart';
 
 import './providers/spotify_auth.dart';
 import './screens/home_screen.dart';
@@ -52,6 +53,14 @@ class MyApp extends StatelessWidget {
                   headline6: TextStyle(
                     color: Colors.white,
                   ),
+                  headline5: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  headline4: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 50,
+                    color: Colors.black,
+                  ),
                 ),
           ),
           home: auth.isAuth
@@ -65,6 +74,7 @@ class MyApp extends StatelessWidget {
                 ),
           routes: {
             LoadingScreen.routeName: (_) => LoadingScreen(),
+            MusicDataScreen.routeName: (_) => MusicDataScreen(),
           },
         ),
       ),

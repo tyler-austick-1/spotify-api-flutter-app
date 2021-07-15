@@ -2,12 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:spotify_app/models/artist.dart';
 
+import '../models/artist.dart';
 import '../models/album.dart';
 import '../models/track.dart';
 import '../models/http_exception.dart';
-import '../models/search_type.dart';
 
 class SpotifyAPI with ChangeNotifier {
   String _authToken;
@@ -38,6 +37,30 @@ class SpotifyAPI with ChangeNotifier {
     }
   }
 
+  Future<Map<String, dynamic>> getAudioFeatures(String trackId) async {
+    final url = Uri.parse('https://api.spotify.com/v1/audio-features/$trackId');
+    final Map<String, dynamic> resultMap = {};
+
+    try {
+      final response = await http.get(url, headers: {
+        'Authorization': 'Bearer $_authToken',
+      });
+
+      final responseData = json.decode(response.body);
+
+      resultMap['Key'] = _convertKey(responseData['key'], responseData['mode']);
+      resultMap['Tempo'] = _convertTempo(responseData['tempo']);
+      resultMap['Duration'] = _convertDuration(responseData['duration_ms']);
+      resultMap['Energy'] = responseData['energy'];
+      resultMap['Danceability'] = responseData['danceability'];
+      // add more later
+
+      return resultMap;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   Future<List<dynamic>> search(String query) async {
     final queryParameters = {
       'q': query,
@@ -55,12 +78,9 @@ class SpotifyAPI with ChangeNotifier {
       final responseData = json.decode(response.body);
 
       final List<dynamic> results = [];
-      // final List<Album> albums = [];
 
       final retrievedAlbums = responseData['albums'];
       final retrievedAlbumItems = retrievedAlbums['items'] as List<dynamic>;
-
-      // print('RETRIEVED ALBUM ITEMS: $retrievedAlbumItems');
 
       retrievedAlbumItems.forEach((element) {
         final elementAlbum = Album.fromJson(element);
@@ -71,8 +91,6 @@ class SpotifyAPI with ChangeNotifier {
       final retrievedArtists = responseData['artists'];
       final retrievedArtistItems = retrievedArtists['items'] as List<dynamic>;
 
-      // print('RETRIEVED ARTIST ITEMS: $retrievedArtistItems');
-
       retrievedArtistItems.forEach((element) {
         final elementArtist = Artist.fromJson(element);
 
@@ -81,8 +99,6 @@ class SpotifyAPI with ChangeNotifier {
 
       final retrievedTracks = responseData['tracks'];
       final retrievedTrackItems = retrievedTracks['items'] as List<dynamic>;
-
-      // print('RETRIEVED TRACK ITEMS: $retrievedTrackItems');
 
       retrievedTrackItems.forEach((element) {
         final albumOfTrack = Album.fromJson(element['album']);
@@ -93,54 +109,44 @@ class SpotifyAPI with ChangeNotifier {
 
       return results;
     } catch (error) {
-      throw error;
       throw HttpException('Could not complete search. Please try again later.');
     }
   }
 
-  // Future<List<Album>> search(String query, List<SearchType> searchTypes) async {
-  //   final queryParameters = {
-  //     'q': query,
-  //     'type': _convertSearchTypes(searchTypes),
-  //   };
+  String _convertKey(int pitchClass, int mode) {
+    const pitchConversionTable = {
+      0: 'C',
+      1: 'C♯(D♭)',
+      2: 'D',
+      3: 'D♯(E♭)',
+      4: 'E',
+      5: 'F',
+      6: 'F♯(G♭)',
+      7: 'G',
+      8: 'G♯(A♭)',
+      9: 'A',
+      10: 'A♯(B♭)',
+      11: 'B',
+    };
 
-  //   final url = Uri.https('api.spotify.com', '/v1/search', queryParameters);
-  //   print(url.query);
+    const modeConversionTable = {
+      0: 'Minor',
+      1: 'Major',
+    };
 
-  //   try {
-  //     final response = await http.get(url, headers: {
-  //       'Authorization': 'Bearer $_authToken',
-  //     });
+    return '${pitchConversionTable[pitchClass]} ${modeConversionTable[mode]}';
+  }
 
-  //     final responseData = json.decode(response.body);
+  String _convertTempo(double tempo) {
+    return '${tempo.round()} bpm';
+  }
 
-  //     final List<Album> albums = [];
+  String _convertDuration(int duration) {
+    final minutes = (duration ~/ 1000) ~/ 60;
+    final seconds = (duration ~/ 1000) % 60;
 
-  //     final retrievedAlbums = responseData['albums'];
-  //     final retrievedItems = retrievedAlbums['items'] as List<dynamic>;
+    final convertSeconds = seconds < 10 ? '0$seconds' : '$seconds';
 
-  //     retrievedItems.forEach((element) {
-  //       final elementAlbum = Album.fromJson(element);
-
-  //       albums.add(elementAlbum);
-  //     });
-
-  //     return albums;
-  //   } catch (error) {
-  //     throw error;
-  //     throw HttpException('Could not complete search. Please try again later.');
-  //   }
-  // }
-
-  String _convertSearchTypes(List<SearchType> searchTypes) {
-    var result = '';
-
-    searchTypes.forEach((element) {
-      result += (element.name.toLowerCase() + ',');
-    });
-
-    result = result.substring(0, result.length - 1);
-
-    return result;
+    return '$minutes:$convertSeconds';
   }
 }
