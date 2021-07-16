@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/artist.dart';
 import '../models/search_type.dart';
 import '../widgets/selection_bar.dart';
 import '../widgets/home_search_bar.dart';
 import '../widgets/music_info_card.dart';
 import '../providers/data.dart';
-import '../models/track.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

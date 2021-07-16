@@ -10,6 +10,12 @@ import '../models/track.dart';
 
 class MusicDataScreen extends StatelessWidget {
   static const routeName = '/music-data';
+  static const noIndicatorList = [
+    'Key',
+    'Tempo',
+    'Duration',
+    'Loudness',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,21 +39,21 @@ class MusicDataScreen extends StatelessWidget {
       body: FutureBuilder(
         future: Provider.of<SpotifyAPI>(context, listen: false)
             .getAudioFeatures(musicObject.id),
-        builder: (ctx, snapShot) =>
-            snapShot.connectionState == ConnectionState.waiting
-                ? Center(child: CircularProgressIndicator())
-                : ListView(
-                    children: [
-                      ...(snapShot.data as Map<String, dynamic>)
-                          .entries
-                          .map((e) => DataTile(
-                                title: e.key,
-                                value: e.value,
-                                height: squareHeight,
-                              ))
-                          .toList(),
-                    ],
-                  ),
+        builder: (ctx, snapShot) => snapShot.connectionState ==
+                ConnectionState.waiting
+            ? Center(child: CircularProgressIndicator())
+            : ListView(
+                children: [
+                  ...(snapShot.data as Map<String, dynamic>).entries.map((e) {
+                    return DataTile(
+                      title: e.key,
+                      value: e.value,
+                      height: squareHeight,
+                      hasProgressBar: !(noIndicatorList.contains(e.key)),
+                    );
+                  }).toList(),
+                ],
+              ),
       ),
     );
   }

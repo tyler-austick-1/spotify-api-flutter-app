@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:spotify_app/models/album.dart';
+import 'package:spotify_app/screens/album_screen.dart';
 import 'package:spotify_app/screens/music_data_screen.dart';
 
 import '../models/track.dart';
@@ -6,9 +8,17 @@ import '../models/artist.dart';
 
 class MusicInfoCard extends StatelessWidget {
   final dynamic musicObject;
+  final bool showImage;
+  final double verticalMargin;
+  final double horizontalMargin;
+  final bool hasRoundedCorners;
 
   const MusicInfoCard({
     @required this.musicObject,
+    this.showImage = true,
+    this.verticalMargin = 2.0,
+    this.horizontalMargin = 6.0,
+    this.hasRoundedCorners = true,
   });
 
   Widget _getLeadingImage() {
@@ -33,19 +43,26 @@ class MusicInfoCard extends StatelessWidget {
         .toList()[0]); // convert this to all artists names later
   }
 
+  void _navigate(BuildContext ctx) {
+    if (musicObject is Track) {
+      Navigator.of(ctx).pushNamed(MusicDataScreen.routeName, arguments: musicObject);
+    } else if (musicObject is Album) {
+      Navigator.of(ctx).pushNamed(AlbumScreen.routeName, arguments: musicObject);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 2.0, horizontal: 6.0),
+      shape: hasRoundedCorners ? null : Border(),
+      margin: EdgeInsets.symmetric(vertical: verticalMargin, horizontal: horizontalMargin),
       elevation: 2.0,
       child: InkWell(
-        onTap: musicObject is Track ? () {
-          Navigator.of(context).pushNamed(MusicDataScreen.routeName, arguments: musicObject);
-        } : null,
+        onTap: () => _navigate(context),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: ListTile(
-            leading: _getLeadingImage(),
+            leading: showImage ? _getLeadingImage() : null,
             title: Text(musicObject.name),
             subtitle: _getSubtitle(),
             trailing: Text(
