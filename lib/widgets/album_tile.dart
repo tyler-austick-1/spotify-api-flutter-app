@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spotify_app/screens/album_screen.dart';
 
+import '../screens/album_screen.dart';
 import '../models/album.dart';
 
 class AlbumTile extends StatelessWidget {

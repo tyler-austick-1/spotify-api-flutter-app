@@ -70,7 +70,7 @@ class Album {
 
   @override
   bool operator ==(other) {
-    return other is Album && id == other.id && href == other.href;
+    return other is Album && id == other.id && href == other.href;  // change from href to spotify external url
   }
 
   @override

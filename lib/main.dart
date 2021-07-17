@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify_app/providers/spotify_api.dart';
-import 'package:spotify_app/providers/data.dart';
-import 'package:spotify_app/screens/album_screen.dart';
-import 'package:spotify_app/screens/artist_screen.dart';
-import 'package:spotify_app/screens/music_data_screen.dart';
 
+import './providers/spotify_api.dart';
+import './providers/data.dart';
+import './screens/album_screen.dart';
+import './screens/artist_screen.dart';
+import './screens/music_data_screen.dart';
 import './providers/spotify_auth.dart';
 import './screens/home_screen.dart';
 import './screens/loading_screen.dart';

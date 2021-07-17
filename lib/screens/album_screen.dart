@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify_app/providers/spotify_api.dart';
-import 'package:spotify_app/widgets/music_info_card.dart';
 
+import '../providers/spotify_api.dart';
+import '../widgets/music_info_card.dart';
 import '../models/album.dart';
 import '../models/track.dart';
 

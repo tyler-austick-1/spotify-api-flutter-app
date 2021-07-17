@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify_app/widgets/album_tile.dart';
 
+import '../widgets/album_tile.dart';
 import '../models/artist.dart';
 import '../providers/spotify_api.dart';
 import '../models/album.dart';

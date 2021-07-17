@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:spotify_app/models/album.dart';
-import 'package:spotify_app/screens/album_screen.dart';
-import 'package:spotify_app/screens/artist_screen.dart';
-import 'package:spotify_app/screens/music_data_screen.dart';
 
+import '../models/album.dart';
+import '../screens/album_screen.dart';
+import '../screens/artist_screen.dart';
+import '../screens/music_data_screen.dart';
 import '../models/track.dart';
 import '../models/artist.dart';
 
