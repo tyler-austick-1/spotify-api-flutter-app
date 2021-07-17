@@ -42,18 +42,25 @@ class MusicDataScreen extends StatelessWidget {
         builder: (ctx, snapShot) => snapShot.connectionState ==
                 ConnectionState.waiting
             ? Center(child: CircularProgressIndicator())
-            : ListView(
-                children: [
-                  ...(snapShot.data as Map<String, dynamic>).entries.map((e) {
-                    return DataTile(
-                      title: e.key,
-                      value: e.value,
-                      height: squareHeight,
-                      hasProgressBar: !(noIndicatorList.contains(e.key)),
-                    );
-                  }).toList(),
-                ],
-              ),
+            : (snapShot.data == null
+                ? Center(
+                    child: Text(
+                        'Could not retrieve track data. Please try again later.'),
+                  )
+                : ListView(
+                    children: [
+                      ...(snapShot.data as Map<String, dynamic>)
+                          .entries
+                          .map((e) {
+                        return DataTile(
+                          title: e.key,
+                          value: e.value,
+                          height: squareHeight,
+                          hasProgressBar: !(noIndicatorList.contains(e.key)),
+                        );
+                      }).toList(),
+                    ],
+                  )),
       ),
     );
   }

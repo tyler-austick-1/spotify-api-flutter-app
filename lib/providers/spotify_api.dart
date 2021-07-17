@@ -17,21 +17,28 @@ class SpotifyAPI with ChangeNotifier {
     this._authToken = newToken;
   }
 
-  // Future<Map<String, dynamic>> getAllTrackData(String trackId) async {
-  //   final Map<String, dynamic> resultsMap = {};
-  //   try {
-  //     final trackDataMap = await getTrackData(trackId);
-  //     resultsMap.addAll(trackDataMap);
+  Future<List<Album>> getArtistAlbums(String artistId) async {
+    final url = Uri.parse('https://api.spotify.com/v1/artists/$artistId/albums');
 
-  //     final audioFeaturesMap = await getAudioFeatures(trackId);
-  //     resultsMap.addAll(audioFeaturesMap);
+    try {
+      final response = await http.get(url, headers: {
+        'Authorization': 'Bearer $_authToken',
+      });
 
-  //     print(resultsMap);
-  //     return resultsMap;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+      final responseData = json.decode(response.body);
+
+      final List<Album> resultAlbums = [];
+      final retrievedAlbums = responseData['items'] as List<dynamic>;
+
+      retrievedAlbums.forEach((albumJson) { 
+        resultAlbums.add(Album.fromJson(albumJson));
+      });
+
+      return resultAlbums;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   Future<List<Track>> getAlbumTracks(String albumId) async {
     final url = Uri.parse('https://api.spotify.com/v1/albums/$albumId');
@@ -68,6 +75,7 @@ class SpotifyAPI with ChangeNotifier {
         'Authorization': 'Bearer $_authToken',
       });
 
+      print('track data ${response.statusCode}');
       final data = json.decode(response.body);
       
       final Map<String, dynamic> resultsMap = {};
@@ -77,7 +85,6 @@ class SpotifyAPI with ChangeNotifier {
       return resultsMap;
       
     } catch (error) {
-      print(error);
       throw HttpException('Could not retrieve track. Please try again later.');
     }
   }
@@ -91,8 +98,9 @@ class SpotifyAPI with ChangeNotifier {
         'Authorization': 'Bearer $_authToken',
       });
 
+      print('audio features ${response.statusCode}');
       final responseData = json.decode(response.body);
-
+      
       final trackData = await getTrackData(trackId);
 
       resultMap['Key'] = _convertKey(responseData['key'], responseData['mode']);
@@ -189,7 +197,7 @@ class SpotifyAPI with ChangeNotifier {
     return '${pitchConversionTable[pitchClass]} ${modeConversionTable[mode]}';
   }
 
-  String _convertTempo(double tempo) {
+  String _convertTempo(num tempo) {
     return '${tempo.round()} bpm';
   }
 
@@ -202,7 +210,7 @@ class SpotifyAPI with ChangeNotifier {
     return '$minutes:$convertSeconds';
   }
 
-  int _convertToPercentage(double value) {
+  int _convertToPercentage(num value) {
     return (value * 100).round();
   }
 }

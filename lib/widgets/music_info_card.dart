@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spotify_app/models/album.dart';
 import 'package:spotify_app/screens/album_screen.dart';
+import 'package:spotify_app/screens/artist_screen.dart';
 import 'package:spotify_app/screens/music_data_screen.dart';
 
 import '../models/track.dart';
@@ -48,6 +49,8 @@ class MusicInfoCard extends StatelessWidget {
       Navigator.of(ctx).pushNamed(MusicDataScreen.routeName, arguments: musicObject);
     } else if (musicObject is Album) {
       Navigator.of(ctx).pushNamed(AlbumScreen.routeName, arguments: musicObject);
+    } else if (musicObject is Artist) {
+      Navigator.of(ctx).pushNamed(ArtistScreen.routeName, arguments: musicObject);
     }
   }
 

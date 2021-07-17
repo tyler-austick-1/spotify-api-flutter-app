@@ -8,7 +8,7 @@ import '../models/track.dart';
 
 class AlbumScreen extends StatelessWidget {
   static const routeName = '/album';
-  List<Track> albumsTracks = [];
+  // List<Track> albumsTracks = [];
 
   Widget _constructTrackList(List<Track> tracks) {
     return ListView.builder(

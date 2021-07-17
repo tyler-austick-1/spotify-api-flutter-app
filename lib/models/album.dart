@@ -13,7 +13,7 @@ class Album {
   String id;
   String name;
   // final String
-  // releaseDate; // maybe convert this to DateTime object (the format is yyyy-MM-dd)
+  String releaseDate;
   // final String releaseDatePrecision;
   // final String type;
   // final String spotifyUri;
@@ -27,11 +27,19 @@ class Album {
     @required this.href,
     @required this.id,
     @required this.name,
-    // this.releaseDate,
+    @required this.releaseDate,
     // this.releaseDatePrecision,
     // this.type,
     // this.spotifyUri
   });
+
+  String get formattedReleaseDate {
+    if (releaseDate != null && releaseDate.length >= 4) {
+      return releaseDate.substring(0, 4);
+    }
+
+    return 'Unknown release date';
+  }
 
   bool get hasImages {
     return images.isNotEmpty;
@@ -53,6 +61,7 @@ class Album {
       this.images.add(Image.fromJson(element));
     });
 
+    this.releaseDate = albumData['release_date'];
     this.type = albumData['album_type'];
     this.href = Uri.parse(albumData['href'] as String);
     this.id = albumData['id'];
