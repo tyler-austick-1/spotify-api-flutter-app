@@ -51,12 +51,6 @@ class MusicDataScreen extends StatelessWidget {
         appBar.preferredSize.height -
         mediaQuery.padding.top;
 
-    final squareHeight = (mediaQuery.size.height -
-            appBar.preferredSize.height -
-            mediaQuery.padding.top -
-            1) /
-        2;
-
     return Scaffold(
       appBar: appBar,
       body: FutureBuilder(
@@ -108,14 +102,14 @@ class MusicDataScreen extends StatelessWidget {
                                         title: 'Tempo',
                                         value: (snapShot.data
                                             as Map<String, dynamic>)['Tempo'],
-                                        height: 55,
+                                        height: 56,
                                         elevation: 4.0,
                                       ),
                                       DataTile(
                                         title: 'Duration',
                                         value: (snapShot.data
                                             as Map<String, dynamic>)['Duration'],
-                                        height: 55,
+                                        height: 56,
                                         elevation: 4.0,
                                       )
                                     ],

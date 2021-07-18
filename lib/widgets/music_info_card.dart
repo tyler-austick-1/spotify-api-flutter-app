@@ -13,6 +13,7 @@ class MusicInfoCard extends StatelessWidget {
   final double verticalMargin;
   final double horizontalMargin;
   final bool hasRoundedCorners;
+  final double elevation;
 
   const MusicInfoCard({
     @required this.musicObject,
@@ -20,6 +21,7 @@ class MusicInfoCard extends StatelessWidget {
     this.verticalMargin = 2.0,
     this.horizontalMargin = 6.0,
     this.hasRoundedCorners = true,
+    this.elevation = 2.0,
   });
 
   Widget _getLeadingImage() {
@@ -59,7 +61,7 @@ class MusicInfoCard extends StatelessWidget {
     return Card(
       shape: hasRoundedCorners ? null : Border(),
       margin: EdgeInsets.symmetric(vertical: verticalMargin, horizontal: horizontalMargin),
-      elevation: 2.0,
+      elevation: elevation,
       child: InkWell(
         onTap: () => _navigate(context),
         child: Padding(

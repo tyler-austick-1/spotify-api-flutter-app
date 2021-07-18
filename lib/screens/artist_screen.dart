@@ -11,6 +11,7 @@ class ArtistScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     final artistObject = ModalRoute.of(context).settings.arguments as Artist;
 
     final appBar = AppBar(
@@ -22,20 +23,79 @@ class ArtistScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: appBar,
-      body: FutureBuilder(
-          future: Provider.of<SpotifyAPI>(context, listen: false)
-              .getArtistAlbums(artistObject.id),
-          builder: (_, snapshot) =>
-              snapshot.connectionState == ConnectionState.waiting
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : ListView.builder(
-                      itemCount: (snapshot.data as List<Album>).length,
-                      itemBuilder: (_, index) {
-                        final currentAlbum = (snapshot.data as List<Album>)[index];
-                        return AlbumTile(currentAlbum);
-                      })),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              alignment: Alignment.bottomLeft,
+              children: [
+                artistObject.hasImages
+                    ? Image.network(
+                        artistObject.images[0].url,
+                        fit: BoxFit.contain,
+                      )
+                    : Image.asset(
+                        'images/spotify-logo.png',
+                        fit: BoxFit.cover,
+                      ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 10.0,
+                  ),
+                  margin: const EdgeInsets.symmetric(
+                    // horizontal: 8.0,
+                    vertical: 12.0,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black45,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(30.0),
+                      bottomRight: Radius.circular(30.0),
+                    ),
+                  ),
+                  child: Text(
+                    artistObject.name,
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            FutureBuilder(
+              future: Provider.of<SpotifyAPI>(context, listen: false)
+                  .getArtistAlbums(artistObject.id),
+              builder: (_, snapshot) =>
+                  snapshot.connectionState == ConnectionState.waiting
+                      ? Flexible(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ...(snapshot.data as List<Album>)
+                                .map((currentAlbum) => AlbumTile(currentAlbum))
+                                .toList()
+                          ],
+                        ),
+            ),
+            // : ListView.builder(
+            //     itemCount: (snapshot.data as List<Album>).length,
+            //     itemBuilder: (_, index) {
+            //       final currentAlbum =
+            //           (snapshot.data as List<Album>)[index];
+            //       return AlbumTile(currentAlbum);
+            //     },
+            //   ),
+          ],
+        ),
+      ),
     );
   }
 }
