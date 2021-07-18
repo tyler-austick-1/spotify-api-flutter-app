@@ -44,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(30, 215, 96, 1),
         title: Text(
           'Spotify API Time',
           style: Theme.of(context).textTheme.headline6,
@@ -57,8 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
             child: SelectionBar(
               labels: SearchType.values.map((e) => e.name).toList(),
               onSelectionUpdated: _setSelectedType,
-              selectedTabColor: Theme.of(context).primaryColor,
-              textColor: Colors.black,
+              selectedTabColor: Color.fromRGBO(30, 215, 96, 1),
+              unselectedTabColor: Theme.of(context).cardColor,
+              textColor: Colors.white,
             ),
           ),
           SizedBox(

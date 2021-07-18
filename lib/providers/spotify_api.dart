@@ -17,7 +17,7 @@ class SpotifyAPI with ChangeNotifier {
     this._authToken = newToken;
   }
 
-  Future<List<Album>> getArtistAlbums(String artistId) async {
+  Future<Set<Album>> getArtistAlbums(String artistId) async {
     final url = Uri.parse('https://api.spotify.com/v1/artists/$artistId/albums');
 
     try {
@@ -27,7 +27,7 @@ class SpotifyAPI with ChangeNotifier {
 
       final responseData = json.decode(response.body);
 
-      final List<Album> resultAlbums = [];
+      final Set<Album> resultAlbums = {};
       final retrievedAlbums = responseData['items'] as List<dynamic>;
 
       retrievedAlbums.forEach((albumJson) { 
@@ -75,7 +75,6 @@ class SpotifyAPI with ChangeNotifier {
         'Authorization': 'Bearer $_authToken',
       });
 
-      print('track data ${response.statusCode}');
       final data = json.decode(response.body);
       
       final Map<String, dynamic> resultsMap = {};
@@ -98,7 +97,6 @@ class SpotifyAPI with ChangeNotifier {
         'Authorization': 'Bearer $_authToken',
       });
 
-      print('audio features ${response.statusCode}');
       final responseData = json.decode(response.body);
       
       final trackData = await getTrackData(trackId);

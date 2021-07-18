@@ -10,7 +10,7 @@ class LoadingButton extends StatelessWidget {
         right: 4.0,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
+        color: Color.fromRGBO(30, 215, 96, 1),
         borderRadius: BorderRadius.circular(30.0),
       ),
       child: Center(

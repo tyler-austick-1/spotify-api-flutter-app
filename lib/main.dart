@@ -49,9 +49,31 @@ class MyApp extends StatelessWidget {
       child: Consumer<SpotifyAuth>(
         builder: (ctx, auth, _) => MaterialApp(
           title: 'Spotify Test',
-          theme: ThemeData(
-            primarySwatch: MaterialColor(0xFF1DB954, color),
-            textTheme: ThemeData.light().textTheme.copyWith(
+          debugShowCheckedModeBanner: false,
+          // theme: ThemeData(
+          //   brightness: Brightness.light,
+          //   // primarySwatch: MaterialColor(0xFF1DB954, color),
+          //   textTheme: ThemeData.light().textTheme.copyWith(
+          //         headline6: TextStyle(
+          //           color: Colors.white,
+          //         ),
+          //         headline5: TextStyle(
+          //           fontWeight: FontWeight.bold,
+          //         ),
+          //         headline4: TextStyle(
+          //           fontWeight: FontWeight.bold,
+          //           fontSize: 50,
+          //           color: Colors.black,
+          //         ),
+          //       ),
+          //   /* light theme settings */
+          // ),
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            // indicatorColor: Color.fromRGBO(30, 215, 96, 1),
+            accentColor: Color.fromRGBO(30, 215, 96, 1),
+            // primarySwatch: MaterialColor(0xFF1DB954, color),
+            textTheme: ThemeData.dark().textTheme.copyWith(
                   headline6: TextStyle(
                     color: Colors.white,
                   ),
@@ -64,7 +86,25 @@ class MyApp extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
+            /* dark theme settings */
           ),
+          themeMode: ThemeMode.dark,
+          // theme: ThemeData(
+          //   primarySwatch: MaterialColor(0xFF1DB954, color),
+          //   textTheme: ThemeData.light().textTheme.copyWith(
+          //         headline6: TextStyle(
+          //           color: Colors.white,
+          //         ),
+          //         headline5: TextStyle(
+          //           fontWeight: FontWeight.bold,
+          //         ),
+          //         headline4: TextStyle(
+          //           fontWeight: FontWeight.bold,
+          //           fontSize: 50,
+          //           color: Colors.black,
+          //         ),
+          //       ),
+          // ),
           home: auth.isAuth
               ? HomeScreen()
               : FutureBuilder(

@@ -19,7 +19,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(backgroundColor: Color.fromRGBO(30, 215, 96, 1),),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

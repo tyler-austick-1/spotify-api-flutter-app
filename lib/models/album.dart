@@ -1,13 +1,14 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:quiver/core.dart';
+import 'package:palette_generator/palette_generator.dart';
 
-import './image.dart';
+import './image.dart' as im;
 
 class Album {
   Map<String, String> artists;
-  List<Image> images;
+  List<im.Image> images;
   String type;
-  // final List<String> availableMarkets;
+  List<String> availableMarkets;
   // final Map<String, Uri> externalUrls;
   Uri href;
   String id;
@@ -28,10 +29,22 @@ class Album {
     @required this.id,
     @required this.name,
     @required this.releaseDate,
+    @required this.availableMarkets,
     // this.releaseDatePrecision,
     // this.type,
     // this.spotifyUri
   });
+
+  Future<Color> getAlbumMainColor() async {
+    final ImageProvider imageProvider = hasImages ? NetworkImage(images[0].url) : AssetImage('images/spotify-logo.png');
+
+    try {
+      final PaletteGenerator paletteGenerator = await PaletteGenerator.fromImageProvider(imageProvider);
+      return paletteGenerator.dominantColor.color;
+    } catch (error) {
+      return Color.fromRGBO(30, 215, 96, 1);
+    }
+  }
 
   String get formattedReleaseDate {
     if (releaseDate != null && releaseDate.length >= 4) {
@@ -58,7 +71,14 @@ class Album {
     final imagesList = albumData['images'] as List<dynamic>;
 
     imagesList.forEach((element) {
-      this.images.add(Image.fromJson(element));
+      this.images.add(im.Image.fromJson(element));
+    });
+
+    this.availableMarkets = [];
+    final marketsList = albumData['available_markets'] as List<dynamic>;
+
+    marketsList.forEach((element) { 
+      this.availableMarkets.add(element);
     });
 
     this.releaseDate = albumData['release_date'];
@@ -70,11 +90,11 @@ class Album {
 
   @override
   bool operator ==(other) {
-    return other is Album && id == other.id && href == other.href;  // change from href to spotify external url
+    return other is Album && id == other.id && name == other.name;  // change from href to spotify external url
   }
 
   @override
-  int get hashCode => hash2(id.hashCode, href.hashCode);
+  int get hashCode => hash2(id.hashCode, name.hashCode);
 
   @override
   String toString() {

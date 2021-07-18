@@ -8,6 +8,9 @@ class DataTile extends StatelessWidget {
   final double height;
   final double elevation;
   final bool hasProgressBar;
+  final Color progressBarColor;
+  final Color backgroundColor;
+  final Color textColor;
 
   DataTile({
     @required this.title,
@@ -16,11 +19,15 @@ class DataTile extends StatelessWidget {
     this.width = double.infinity,
     this.elevation = 1.0,
     this.hasProgressBar = false,
+    this.progressBarColor = const Color.fromRGBO(30, 215, 96, 1),
+    this.backgroundColor,
+    this.textColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: backgroundColor == null ? Theme.of(context).cardColor : backgroundColor,
       elevation: elevation,
       shape: Border(),
       child: Container(
@@ -41,7 +48,7 @@ class DataTile extends StatelessWidget {
           children: [
             Text(
               title,
-              // style: Theme.of(context).textTheme.headline5,
+              style: textColor == null ? null : TextStyle(color: textColor),
             ),
             // SizedBox(
             //   height: 15,
@@ -58,8 +65,8 @@ class DataTile extends StatelessWidget {
                         // style: Theme.of(context).textTheme.headline4,
                       ),
                       circularStrokeCap: CircularStrokeCap.square,
-                      progressColor: Theme.of(context).primaryColor,
-                      backgroundColor: Color.fromRGBO(0, 0, 0, 0.08),
+                      progressColor: progressBarColor,
+                      backgroundColor: Colors.grey[700],
                       animationDuration: 600,
                     ),
                   )
@@ -67,8 +74,9 @@ class DataTile extends StatelessWidget {
                     value.toString(),
                     // style: Theme.of(context).textTheme.headline4,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: textColor == null ? null : TextStyle(
                       fontWeight: FontWeight.bold,
+                      color: textColor,
                     ),
                   ),
           ],

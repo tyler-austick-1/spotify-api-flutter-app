@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:quiver/core.dart';
+import 'package:palette_generator/palette_generator.dart';
 
 import './album.dart';
 
@@ -43,6 +43,15 @@ class Track {
       // this.type,
       // this.spotifyUri
       });
+
+  Future<Color> getTrackMainColor() async {
+    try {
+      final Color albumMainColor = await album.getAlbumMainColor();
+      return albumMainColor;
+    } catch (error) {
+      return Color.fromRGBO(30, 215, 96, 1);
+    }
+  }
 
   Track.fromJson(Album album, Map<String, dynamic> trackData) {
     this.album = album;

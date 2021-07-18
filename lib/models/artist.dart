@@ -1,6 +1,7 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:palette_generator/palette_generator.dart';
 
-import './image.dart';
+import './image.dart' as im;
 
 class Artist {
   // final Map<String, Uri> externalUrls;
@@ -8,7 +9,7 @@ class Artist {
   String id;
   String name;
   String type;
-  List<Image> images;
+  List<im.Image> images;
   // final String spotifyUri;
 
   Artist({
@@ -19,6 +20,17 @@ class Artist {
     @required this.type,
     // this.spotifyUri,
   });
+
+  Future<Color> getArtistMainColor() async {
+    final ImageProvider imageProvider = hasImages ? NetworkImage(images[0].url) : AssetImage('images/spotify-logo.png');
+
+    try {
+      final PaletteGenerator paletteGenerator = await PaletteGenerator.fromImageProvider(imageProvider);
+      return paletteGenerator.dominantColor.color;
+    } catch (error) {
+      return Color.fromRGBO(30, 215, 96, 1);
+    }
+  }
 
   bool get hasImages {
     return images.isNotEmpty;
@@ -31,7 +43,7 @@ class Artist {
     final imagesList = jsonMap['images'] as List<dynamic>;
 
     imagesList.forEach((element) {
-      this.images.add(Image.fromJson(element));
+      this.images.add(im.Image.fromJson(element));
     });
 
     this.id = jsonMap['id'];

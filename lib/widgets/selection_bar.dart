@@ -32,6 +32,8 @@ class SelectionBar extends StatefulWidget {
   /// Border radius of the bar and selected tab indicator.
   final double borderRadius;
 
+  final Color unselectedTabColor;
+
   SelectionBar(
       {@required this.labels,
       this.backgroundBorder,
@@ -40,7 +42,8 @@ class SelectionBar extends StatefulWidget {
       this.textColor = Colors.white,
       this.labelTextStyle = const TextStyle(),
       this.onSelectionUpdated,
-      this.borderRadius = 50});
+      this.borderRadius = 50,
+      this.unselectedTabColor});
 
   @override
   State<StatefulWidget> createState() {
@@ -90,7 +93,7 @@ class _SelectionBarState extends State<SelectionBar> {
                       decoration: BoxDecoration(
                           color: _hashMap.values.elementAt(index)
                               ? widget.selectedTabColor
-                              : null,
+                              : widget.unselectedTabColor,
                           border: _hashMap.values.elementAt(index)
                               ? null
                               : Border.all(

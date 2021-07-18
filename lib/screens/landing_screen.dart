@@ -23,6 +23,7 @@ class LandingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(30, 215, 96, 1),
         title: Text('Spotify API Time'),
       ),
       body: Center(
