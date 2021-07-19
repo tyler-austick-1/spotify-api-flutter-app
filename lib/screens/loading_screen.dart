@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+/*
+  This screen shows a CircularProgressIndicator along with an optional loading text.
+*/
 class LoadingScreen extends StatelessWidget {
   static const routeName = '/loading';
   final String loadingText;

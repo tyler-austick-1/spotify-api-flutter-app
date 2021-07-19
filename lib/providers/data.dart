@@ -3,11 +3,14 @@ import 'package:flutter/foundation.dart';
 import '../models/artist.dart';
 import '../models/album.dart';
 import './spotify_api.dart';
-import '../models/search_type.dart';
 import '../models/track.dart';
 
-// import '../models/track.dart';
+/* 
+  Class used to store the objects returned from a search query.
 
+  The lists that store the results get updated every time the user
+  submits a new search and will notify the listeners to the changes.
+*/
 class Data with ChangeNotifier {
   SpotifyAPI spotifyAPI;
 
@@ -15,6 +18,7 @@ class Data with ChangeNotifier {
 
   void updateSpotifyAPI(SpotifyAPI spotifyAPI) {
     this.spotifyAPI = spotifyAPI;
+    notifyListeners();  
   }
 
   List<dynamic> _retrievedResults = [];
@@ -40,12 +44,14 @@ class Data with ChangeNotifier {
     return [..._retrievedTracks];
   }
 
+  // Set the retrieved search results from the Spotify API
   void _setSearchResults(List<dynamic> results) {
     _retrievedResults = results;
     sortIntoTypes();
     notifyListeners();
   }
 
+  // Sorts the search results into their respective types (Album, Artist and Track)
   void sortIntoTypes() {
     if (_retrievedResults == null) {
       return;
@@ -66,21 +72,16 @@ class Data with ChangeNotifier {
     });
   }
 
-  Future<void> tryToSearch(String query, List<SearchType> searchTypes) async {  // atm this only works for albums
+  /* 
+    Attempts to retrieve the search results from the API.
+    Then calls the method to temporarily store the search results.
+  */
+  Future<void> tryToSearch(String query) async {
     try {
       final searchResultsList = await spotifyAPI.search(query);
-      // _addListOfALbums(searchResultsList);
       _setSearchResults(searchResultsList);
     } catch (error) {
       throw error;
     }
   }
-  // List<Track> get tracks {
-  //   return retrievedTracks.entries.map((e) => e.value).toList();
-  // }
-
-  // void addTrack(Track track) {
-  //   retrievedTracks[track.id] = track;
-  //   notifyListeners();
-  // }
 }

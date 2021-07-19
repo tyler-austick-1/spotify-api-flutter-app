@@ -8,15 +8,35 @@ import '../models/album.dart';
 import '../models/track.dart';
 import '../models/http_exception.dart';
 
+/* 
+  Class necessary for the http requests to the various Spotify API endpoints.
+
+  The http requests require a valid token in the header so this must be stored
+  within the class.
+*/
 class SpotifyAPI with ChangeNotifier {
   String _authToken;
 
   SpotifyAPI(this._authToken);
 
+  /*
+    Updates the authorization token if the token expires and
+    the SpotifyAuth class refreshes the token.
+  */
   void updateToken(String newToken) {
     this._authToken = newToken;
+    notifyListeners();  
   }
 
+  /* 
+    Retrieves an artist's albums from the Spotify API.
+    The Future will ultimately return a Set of Album objects
+    generated from the json response data.
+
+    (note this currently doesn't work as intended since the Spotify API will still
+    return albums with the exact same content but that have different IDs so there may
+    still be 'duplicate' albums in the Set)
+  */
   Future<Set<Album>> getArtistAlbums(String artistId) async {
     final url = Uri.parse('https://api.spotify.com/v1/artists/$artistId/albums');
 
@@ -40,6 +60,11 @@ class SpotifyAPI with ChangeNotifier {
     }
   }
 
+  /*
+    Retrieves an album's tracks based on its ID from the Spotify API's albums endpoint.
+    The Future ultimately returns a list of Track objects generated from the json
+    response data.
+  */
   Future<List<Track>> getAlbumTracks(String albumId) async {
     final url = Uri.parse('https://api.spotify.com/v1/albums/$albumId');
 
@@ -67,6 +92,15 @@ class SpotifyAPI with ChangeNotifier {
     }
   }
 
+  /*
+    Retrieves data about a track based on its ID from the Spotify API's tracks endpoint.
+    The Future ultimately returns a map of string keys showing what the data is and dynamic
+    values of the corresponding data generated from the json
+    response data.
+
+    (Currently only popularity is needed in the app but this can be expanded for other 
+    data retrieved from the request)
+  */
   Future<Map<String, dynamic>> getTrackData(String trackId) async {
     final url = Uri.parse('https://api.spotify.com/v1/tracks/$trackId');
 
@@ -88,6 +122,12 @@ class SpotifyAPI with ChangeNotifier {
     }
   }
 
+  /*
+    Retrieves the audio features data about a track based on its ID from the Spotify API's audio-features endpoint.
+    The Future ultimately returns a map of string keys showing what the data is and dynamic
+    values of the corresponding data generated from the json
+    response data.
+  */
   Future<Map<String, dynamic>> getAudioFeatures(String trackId) async {
     final url = Uri.parse('https://api.spotify.com/v1/audio-features/$trackId');
     final Map<String, dynamic> resultMap = {};
@@ -114,11 +154,16 @@ class SpotifyAPI with ChangeNotifier {
       resultMap['Speechiness'] = _convertToPercentage(responseData['speechiness']);
 
       return resultMap;
+
     } catch (error) {
       throw error;
     }
   }
 
+  /* 
+    Retrieves items returned from a search request using the Spotify API's search endpoint.
+    The Future ultimately returns a list of dynamic (in this case Album, Artist and Track objects).
+  */
   Future<List<dynamic>> search(String query) async {
     final queryParameters = {
       'q': query,
@@ -171,19 +216,23 @@ class SpotifyAPI with ChangeNotifier {
     }
   }
 
+  /*  
+    Converts the pitch class notation integer and mode integer into
+    a readable musical key (e.g. A Major).
+  */
   String _convertKey(int pitchClass, int mode) {
     const pitchConversionTable = {
       0: 'C',
-      1: 'C♯',
+      1: 'C\u266F', // C♯
       2: 'D',
-      3: 'E♭',
+      3: 'E\u266D', // E♭
       4: 'E',
       5: 'F',
-      6: 'F♯',
+      6: 'F\u266F', // F♯
       7: 'G',
-      8: 'G♯',
+      8: 'G\u266F', // G♯
       9: 'A',
-      10: 'B♭',
+      10: 'B\u266D', // B♭
       11: 'B',
     };
 
@@ -195,10 +244,12 @@ class SpotifyAPI with ChangeNotifier {
     return '${pitchConversionTable[pitchClass]} ${modeConversionTable[mode]}';
   }
 
+  // Rounds the tempo to the nearest integer and formats into a string
   String _convertTempo(num tempo) {
     return '${tempo.round()} bpm';
   }
 
+  // Converts the duration in milliseconds into a string containing the minutes and seconds
   String _convertDuration(int duration) {
     final minutes = (duration ~/ 1000) ~/ 60;
     final seconds = (duration ~/ 1000) % 60;

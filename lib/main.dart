@@ -5,7 +5,7 @@ import './providers/spotify_api.dart';
 import './providers/data.dart';
 import './screens/album_screen.dart';
 import './screens/artist_screen.dart';
-import './screens/music_data_screen.dart';
+import 'screens/track_screen.dart';
 import './providers/spotify_auth.dart';
 import './screens/home_screen.dart';
 import './screens/loading_screen.dart';
@@ -16,19 +16,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final Map<int, Color> color = {
-    50: Color.fromRGBO(30, 215, 96, .1),
-    100: Color.fromRGBO(30, 215, 96, .2),
-    200: Color.fromRGBO(30, 215, 96, .3),
-    300: Color.fromRGBO(30, 215, 96, .4),
-    400: Color.fromRGBO(30, 215, 96, .5),
-    500: Color.fromRGBO(30, 215, 96, .6),
-    600: Color.fromRGBO(30, 215, 96, .7),
-    700: Color.fromRGBO(30, 215, 96, .8),
-    800: Color.fromRGBO(30, 215, 96, .9),
-    900: Color.fromRGBO(30, 215, 96, 1),
-  };
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -50,29 +37,9 @@ class MyApp extends StatelessWidget {
         builder: (ctx, auth, _) => MaterialApp(
           title: 'Spotify Test',
           debugShowCheckedModeBanner: false,
-          // theme: ThemeData(
-          //   brightness: Brightness.light,
-          //   // primarySwatch: MaterialColor(0xFF1DB954, color),
-          //   textTheme: ThemeData.light().textTheme.copyWith(
-          //         headline6: TextStyle(
-          //           color: Colors.white,
-          //         ),
-          //         headline5: TextStyle(
-          //           fontWeight: FontWeight.bold,
-          //         ),
-          //         headline4: TextStyle(
-          //           fontWeight: FontWeight.bold,
-          //           fontSize: 50,
-          //           color: Colors.black,
-          //         ),
-          //       ),
-          //   /* light theme settings */
-          // ),
           darkTheme: ThemeData(
             brightness: Brightness.dark,
-            // indicatorColor: Color.fromRGBO(30, 215, 96, 1),
-            accentColor: Color.fromRGBO(30, 215, 96, 1),
-            // primarySwatch: MaterialColor(0xFF1DB954, color),
+            accentColor: Colors.white,
             textTheme: ThemeData.dark().textTheme.copyWith(
                   headline6: TextStyle(
                     color: Colors.white,
@@ -89,22 +56,6 @@ class MyApp extends StatelessWidget {
             /* dark theme settings */
           ),
           themeMode: ThemeMode.dark,
-          // theme: ThemeData(
-          //   primarySwatch: MaterialColor(0xFF1DB954, color),
-          //   textTheme: ThemeData.light().textTheme.copyWith(
-          //         headline6: TextStyle(
-          //           color: Colors.white,
-          //         ),
-          //         headline5: TextStyle(
-          //           fontWeight: FontWeight.bold,
-          //         ),
-          //         headline4: TextStyle(
-          //           fontWeight: FontWeight.bold,
-          //           fontSize: 50,
-          //           color: Colors.black,
-          //         ),
-          //       ),
-          // ),
           home: auth.isAuth
               ? HomeScreen()
               : FutureBuilder(
@@ -116,7 +67,7 @@ class MyApp extends StatelessWidget {
                 ),
           routes: {
             LoadingScreen.routeName: (_) => LoadingScreen(),
-            MusicDataScreen.routeName: (_) => MusicDataScreen(),
+            TrackScreen.routeName: (_) => TrackScreen(),
             AlbumScreen.routeName: (_) => AlbumScreen(),
             ArtistScreen.routeName: (_) => ArtistScreen(),
           },

@@ -3,6 +3,9 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+// CREDIT TO https://github.com/adithyaxx/toggle_bar/blob/master/lib/toggle_bar.dart FOR THE MAJORITY OF THIS CLASS'S CODE
+// THE CODE HAS BEEN MODIFIED BUT MAJORITY OF IT IS FROM THE REPO ABOVE.
+
 /// A horizontal bar of toggle tabs with customisable colors and labels.
 ///
 /// The provided list of labels are laid out as tabs in a horizontal manner. The states of the tabs

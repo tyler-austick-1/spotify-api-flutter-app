@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+/* 
+  This widget is used on the TrackScreen to display the data of a track.
+  It shows the title of what the data is, the data's value and optionally
+  a CircularPercentIndicator to represent a percentage.
+*/
 class DataTile extends StatelessWidget {
   final String title;
   final dynamic value;
@@ -33,15 +38,6 @@ class DataTile extends StatelessWidget {
       child: Container(
         width: width,
         height: height,
-        // decoration: BoxDecoration(
-        //   border: Border(
-        //     bottom: BorderSide(
-        //       width: 1,
-        //       color: Colors.black38,
-        //     ),
-        //   ),
-        // ),
-        // ...squaresMap.entries.map((e) => null).toList();
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -50,9 +46,6 @@ class DataTile extends StatelessWidget {
               title,
               style: textColor == null ? null : TextStyle(color: textColor),
             ),
-            // SizedBox(
-            //   height: 15,
-            // ),
             hasProgressBar
                 ? Center(
                     child: CircularPercentIndicator(
@@ -62,7 +55,6 @@ class DataTile extends StatelessWidget {
                       percent: value / 100,
                       center: new Text(
                         value.toString(),
-                        // style: Theme.of(context).textTheme.headline4,
                       ),
                       circularStrokeCap: CircularStrokeCap.square,
                       progressColor: progressBarColor,
@@ -72,7 +64,6 @@ class DataTile extends StatelessWidget {
                   )
                 : Text(
                     value.toString(),
-                    // style: Theme.of(context).textTheme.headline4,
                     textAlign: TextAlign.center,
                     style: textColor == null ? null : TextStyle(
                       fontWeight: FontWeight.bold,

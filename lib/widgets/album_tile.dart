@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import '../screens/album_screen.dart';
 import '../models/album.dart';
 
+/* 
+  This widget is used to display an album in the ArtistScreen.
+  The left of the Containter contains the album's image while the 
+  right side contains a Column with the album: type, name, artist and release year.
+*/
 class AlbumTile extends StatelessWidget {
   final Album album;
 

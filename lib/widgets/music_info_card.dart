@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import '../models/album.dart';
 import '../screens/album_screen.dart';
 import '../screens/artist_screen.dart';
-import '../screens/music_data_screen.dart';
+import '../screens/track_screen.dart';
 import '../models/track.dart';
 import '../models/artist.dart';
 
+/* 
+  A custom Card containing a ListTile to display the 
+  relevant information of a 'music object' (i.e. Album, Artist and Track).
+*/
 class MusicInfoCard extends StatelessWidget {
   final dynamic musicObject;
   final bool showImage;
@@ -48,7 +52,7 @@ class MusicInfoCard extends StatelessWidget {
 
   void _navigate(BuildContext ctx) {
     if (musicObject is Track) {
-      Navigator.of(ctx).pushNamed(MusicDataScreen.routeName, arguments: musicObject);
+      Navigator.of(ctx).pushNamed(TrackScreen.routeName, arguments: musicObject);
     } else if (musicObject is Album) {
       Navigator.of(ctx).pushNamed(AlbumScreen.routeName, arguments: musicObject);
     } else if (musicObject is Artist) {

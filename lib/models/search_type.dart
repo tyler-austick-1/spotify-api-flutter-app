@@ -1,13 +1,15 @@
+// The different search types that the user can filter search results on.
 enum SearchType {
   ALL,
   ALBUM,
   ARTIST,
-  // PLAYLIST,  // add playlists later if need
+  // PLAYLIST,  // add playlists later if needed
   TRACK,
 }
 
 extension SearchTypeExtension on SearchType {
 
+  // Converts the enum type into a string
   String get name {
     switch (this) {
       case SearchType.ALL:

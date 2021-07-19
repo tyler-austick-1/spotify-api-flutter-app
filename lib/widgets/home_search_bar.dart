@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/data.dart';
-import '../models/search_type.dart';
 import './custom_search_bar.dart';
 
+/* 
+  Displays a CustomSearchBar and defines the method to execute upon
+  submitting the search bar.
+*/
 class HomeSearchBar extends StatefulWidget {
   @override
   _HomeSearchBarState createState() => _HomeSearchBarState();
 }
 
 class _HomeSearchBarState extends State<HomeSearchBar> {
-  var _selectedTypes = [SearchType.ALBUM];
   var _enableSearchBar = true;
   var _isLoading = false;
 
@@ -25,7 +27,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
     });
     
     try {
-      await Provider.of<Data>(context, listen: false).tryToSearch(query, _selectedTypes);    // call try to search in stored data
+      await Provider.of<Data>(context, listen: false).tryToSearch(query);    
     } catch (error) {
       throw error;    // make this display something later
     }

@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:quiver/core.dart';
-import 'package:palette_generator/palette_generator.dart';
 
 import './album.dart';
 
+/* 
+  Defines the proporties for a Track.
+
+  Note that the Track object does not currently store all the possible
+  data received from a Spotify API Track Object. These fields have been
+  commented out for ease of expanding later.
+
+  To see what the Spotify API's Track Object returns see https://developer.spotify.com/documentation/web-api/reference/#objects-index
+*/
 class Track {
   Album album;
   Map<String, String> artists;
@@ -40,10 +48,10 @@ class Track {
       // this.popularity,
       // this.previewUrl,
       // this.trackNumber,
-      // this.type,
       // this.spotifyUri
       });
 
+  // Uses Palette Generator package to find the most dominant color of the track's album's cover image
   Future<Color> getTrackMainColor() async {
     try {
       final Color albumMainColor = await album.getAlbumMainColor();
@@ -53,6 +61,11 @@ class Track {
     }
   }
 
+  /*
+    Initialises the fields of a Track object from the json data that
+    is retrieved from the Spotify API.
+    This also takes in an album object that the track is from.
+  */
   Track.fromJson(Album album, Map<String, dynamic> trackData) {
     this.album = album;
 
@@ -60,7 +73,6 @@ class Track {
     final artistsList = trackData['artists'] as List<dynamic>;
     
     artistsList.forEach((element) { 
-      // final Map<String, String> elementMap = {element['id']: element['name']};
       this.artists[element['id']] = element['name'];
     });
 
@@ -84,10 +96,6 @@ class Track {
     var string = "------------------------------------------------------------------\nTrack:\nid: $id\nname: $name\nhref: $href\nisExplicit: $isExplicit\n";
     string += this.album.toString();
     
-    // this.artists.forEach((element) {
-    //   string += element.toString();
-    // });
-
     return string;
   }
 }

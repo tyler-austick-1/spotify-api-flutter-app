@@ -7,6 +7,11 @@ import '../widgets/home_search_bar.dart';
 import '../widgets/music_info_card.dart';
 import '../providers/data.dart';
 
+/* 
+  This is the main screen of the app.
+  It shows the search bar, selection bar and once a search has 
+  been completed, it shows the search results in a ListView.
+*/
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -46,14 +51,16 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(30, 215, 96, 1),
         title: Text(
-          'Spotify API Time',
+          'Spotify API App',
           style: Theme.of(context).textTheme.headline6,
         ),
       ),
       body: Column(
         children: [
+          SizedBox(
+            height: 7,
+          ),
           HomeSearchBar(),
-          // SearchSelectionBar(_selectedType, _setSelectedType),
           Center(
             child: SelectionBar(
               labels: SearchType.values.map((e) => e.name).toList(),

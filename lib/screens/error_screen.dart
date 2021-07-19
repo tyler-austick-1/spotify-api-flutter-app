@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+/* 
+  This screen will show when an error has occured.
+  It displays a custom text in the center of the screen.
+*/
 class ErrorScreen extends StatelessWidget {
   final String errorMessage;
 

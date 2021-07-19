@@ -6,21 +6,18 @@ import '../models/artist.dart';
 import '../providers/spotify_api.dart';
 import '../models/album.dart';
 
+/* 
+  This screen is navigated to after tapping on an Artist tile from the HomeScreen.
+
+  It displays an artist's: image, name and albums/singles/compliations.
+  The color of the AppBar is determined from the dominant color of the artist's image.
+*/
 class ArtistScreen extends StatelessWidget {
   static const routeName = '/artist';
 
   @override
   Widget build(BuildContext context) {
-    // final mediaQuery = MediaQuery.of(context);
     final artistObject = ModalRoute.of(context).settings.arguments as Artist;
-
-    // final appBar = AppBar(
-    //   backgroundColor: Color.fromRGBO(30, 215, 96, 1),
-    //   title: Text(
-    //     artistObject.name,
-    //     style: Theme.of(context).textTheme.headline6,
-    //   ),
-    // );
 
     return FutureBuilder(
       future: artistObject.getArtistMainColor(),
@@ -102,14 +99,6 @@ class ArtistScreen extends StatelessWidget {
                                   ],
                                 ),
                     ),
-                    // : ListView.builder(
-                    //     itemCount: (snapshot.data as List<Album>).length,
-                    //     itemBuilder: (_, index) {
-                    //       final currentAlbum =
-                    //           (snapshot.data as List<Album>)[index];
-                    //       return AlbumTile(currentAlbum);
-                    //     },
-                    //   ),
                   ],
                 ),
               ),

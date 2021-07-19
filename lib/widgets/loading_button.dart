@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+/* 
+  This widget is a button with a CircularProgressIndicator as the 'icon'
+  to indicate loading.
+*/
 class LoadingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

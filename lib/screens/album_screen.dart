@@ -6,6 +6,12 @@ import '../widgets/music_info_card.dart';
 import '../models/album.dart';
 import '../models/track.dart';
 
+/* 
+  This screen is navigated to after tapping on an Album tile from the HomeScreen or ArtistScreen.
+
+  It displays an album's: image, name, artist name and tracks.
+  The color of the AppBar is determined from the dominant color of the album's image.
+*/
 class AlbumScreen extends StatelessWidget {
   static const routeName = '/album';
 
@@ -113,7 +119,6 @@ class AlbumScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                // : _constructTrackList(snapshot.data),
               ),
             ),
     );

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 import './loading_button.dart';
 
+/* 
+  This widget is a search bar with custom styling.
+  The left of the search bar is a TextField and the right has a custom search button.
+*/
 class CustomSearchBar extends StatefulWidget {
   final Function _executeOnCompleted;
   final bool _isEnabled;
@@ -33,10 +37,6 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
         bottom: 1.0,
       ),
       decoration: BoxDecoration(
-        border: Border.all(
-          width: 1.0,
-          color: Colors.grey[400],
-        ),
         color: Colors.white,
         borderRadius: BorderRadius.circular(25.0),
       ),
@@ -50,10 +50,9 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                   color: Colors.black,
                 ),
                 enabled: widget
-                    ._isEnabled, // MIGHT BE ABLE TO USE ON CHANGED TO HAVE DYNAMIC SEARCH BAR
+                    ._isEnabled, 
                 onSubmitted: (value) {
                   widget._executeOnCompleted(value);
-                  // _controller.clear();
                 },
                 controller: _controller,
                 decoration: InputDecoration(
@@ -95,12 +94,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                         ? null
                         : () {
                             widget._executeOnCompleted(_controller.text);
-                            // _controller.clear();
                             FocusScope.of(context)
                                 .unfocus(); // closes the keyboard
                           },
                     iconSize:
-                        22.0, //see this for correcting inkwell sizing https://flutteragency.com/remove-iconbutton-big-padding/
+                        22.0, 
                     icon: Icon(
                       Icons.search,
                       color: Colors.white,

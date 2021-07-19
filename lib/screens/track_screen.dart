@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify_app/main.dart';
 
 import '../providers/spotify_api.dart';
 import '../widgets/data_tile.dart';
 import '../models/track.dart';
 
-// look at this for UI inspo https://tunebat.com/Info/Broken-Machine-Nothing-But-Thieves/1lpxUd0kkSbVbYoUS7hLJJ
-// use get a track from the API to get more data that the above link uses
+/* 
+  This screen is navigated to after tapping on a Track tile from the HomeScreen or AlbumScreen.
 
-class MusicDataScreen extends StatefulWidget {
+  It displays the track's: album's image, name and the data retrieved for that track.
+  The color of the AppBar and DataTile indicators is determined from the dominant color of the track's album's image.
+*/
+class TrackScreen extends StatefulWidget {
   static const routeName = '/music-data';
   static const noIndicatorList = [
     'Key',
@@ -18,10 +20,10 @@ class MusicDataScreen extends StatefulWidget {
   ];
 
   @override
-  _MusicDataScreenState createState() => _MusicDataScreenState();
+  _TrackScreenState createState() => _TrackScreenState();
 }
 
-class _MusicDataScreenState extends State<MusicDataScreen> {
+class _TrackScreenState extends State<TrackScreen> {
   Color mainColor = Color.fromRGBO(30, 215, 96, 1);
   bool isInit = false;
 
@@ -42,7 +44,7 @@ class _MusicDataScreenState extends State<MusicDataScreen> {
   Map<String, dynamic> _onlyIndicatorEntries(Map<String, dynamic> map) {
     Map<String, dynamic> copy = Map.from(map);
     copy.removeWhere(
-        (key, value) => MusicDataScreen.noIndicatorList.contains(key));
+        (key, value) => TrackScreen.noIndicatorList.contains(key));
     return copy;
   }
 
@@ -86,7 +88,8 @@ class _MusicDataScreenState extends State<MusicDataScreen> {
             : (snapShot.data == null
                 ? const Center(
                     child: Text(
-                        'Could not retrieve track data. Please try again later.'),
+                      'Could not retrieve track data. Please try again later.',
+                    ),
                   )
                 : SingleChildScrollView(
                     child: Column(
@@ -117,8 +120,8 @@ class _MusicDataScreenState extends State<MusicDataScreen> {
                               height: 120,
                               width: 120,
                               elevation: 4.0,
-                              backgroundColor: Colors.white,
-                              textColor: Colors.black,
+                              // backgroundColor: Colors.white,
+                              textColor: Colors.white,
                             ),
                             Expanded(
                               child: Column(
@@ -159,7 +162,7 @@ class _MusicDataScreenState extends State<MusicDataScreen> {
                                   width: heightWithoutAppBar * 0.3,
                                   height: heightWithoutAppBar * 0.3,
                                   elevation: 0.5,
-                                  hasProgressBar: !(MusicDataScreen
+                                  hasProgressBar: !(TrackScreen
                                       .noIndicatorList
                                       .contains(e.key)),
                                   progressBarColor: mainColor,

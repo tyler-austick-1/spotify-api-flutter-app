@@ -5,8 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/album.dart';
-import '../models/track.dart';
 import '../models/http_exception.dart';
 
 class SpotifyAuth with ChangeNotifier{
@@ -15,17 +13,28 @@ class SpotifyAuth with ChangeNotifier{
   DateTime _expiryTime;
   Timer _tokenTimer;
 
-  final Set<Album> retrievedAlbums = {};
-  final Set<Track> retrievedTracks = {};
-
+  // Checks if we have a valid access token
   bool get isAuth {
-    return _token != null && _expiryTime.isAfter(DateTime.now()); //might need to add null check on expiry time
+    return _token != null && _expiryTime.isAfter(DateTime.now());
   }
 
   String get token {
     return _token;
   }
 
+  /* 
+    Retrieves a valid token from the Spotify API using the client ID and client secret.
+
+    The client id and client secret (separated by a comma) must be converted to a Base64
+    string before being passed to the header of the request.
+
+    Once authorisation is complete the _refreshToken method is called so that when the 
+    current token expires a new token will automatically be retrieved and updated.
+
+    The token and expiry time retrieved are stored on the device's local storage so that
+    a new token does not need to be requested every time the user opens the app as long
+    as they have a valid token stored on the device.
+  */
   Future<void> authorise() async {
     const _clientId = 'a1e315a6f9a9406c9bdb6d51c5f8e03c';
     const _clientSecret = '6626e9762e9547a69ec729584e604861';
@@ -35,8 +44,6 @@ class SpotifyAuth with ChangeNotifier{
     const stringToEncode = '$_clientId:$_clientSecret';
     final bytes = utf8.encode(stringToEncode);
     final base64String = base64.encode(bytes);
-
-    // print(base64String);
 
     try {
       final response = await http.post(
@@ -72,6 +79,10 @@ class SpotifyAuth with ChangeNotifier{
     }
   }
 
+  /* 
+    Tries to set a valid token by using the token stored on the
+    device's local storage (if there is one).
+  */
   Future<bool> tryAutoAuth() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -95,6 +106,7 @@ class SpotifyAuth with ChangeNotifier{
     return true;
   }
 
+  // Requests a new token when the current one expires.
   void _refreshToken() {
     if (_tokenTimer != null) {
       _tokenTimer.cancel();

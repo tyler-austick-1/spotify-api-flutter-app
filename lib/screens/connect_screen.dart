@@ -3,6 +3,10 @@ import 'package:provider/provider.dart';
 
 import '../providers/spotify_auth.dart';
 
+/* 
+  This screen will attempt to authorise the app (from the SpotifyAPI provider)
+  and show a CircularProgressIndicator and text to display to the user.
+*/
 class ConnectScreen extends StatefulWidget {
   @override
   _ConnectScreenState createState() => _ConnectScreenState();
