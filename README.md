@@ -38,7 +38,7 @@ The home screen has a search bar where the user enters their query and results a
 
 ### Artist Screen
 
-<p align="middle">
+<p float="left">
   <img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/artist_screen_1.jpg" alt="Artist screen 1" width="40%" height="40%"/>
   <img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/artist_screen_2.jpg" alt="Artist screen 2" width="40%" height="40%"/> 
 </p>
@@ -49,13 +49,13 @@ Once an artist tile is tapped on from the [Home screen](#home-screen) this scree
 
 <img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/album_screen.jpg" alt="Album screen" width="40%" height="40%"/>
 
-This screen is displayed from tapping on an album tile from the [Home screen](#home-screen) or [Artist screen](#artist-screen)
+This screen is displayed from tapping on an album tile from the [Home screen](#home-screen) or [Artist screen](#artist-screen).
 
 ### Track Screen
 
-<p align="middle">
+<p float="left">
   <img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/track_screen_1.jpg" alt="Track screen 1" width="40%" height="40%"/>
   <img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/track_screen_2.jpg" alt="Track screen 2" width="40%" height="40%"/> 
 </p>
 
-Now this is the interesting screen of the app where the data about a track is displayed. This is the main purpose of the app where musicians can quickly look up the key or tempo of a song or just to see how different tracks compare on metrics such as happiness and danceability. This screen is displayed from tapping on a track tile on the [Home screen](#home-screen) or [Album screen](#album-screen)
+Now this is the interesting screen of the app where the data about a track is displayed. This is the main purpose of the app where musicians can quickly look up the key or tempo of a song or just to see how different tracks compare on metrics such as happiness and danceability. This screen is displayed from tapping on a track tile on the [Home screen](#home-screen) or [Album screen](#album-screen).
