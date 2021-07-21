@@ -18,4 +18,6 @@ Not sure where to find your client ID and client secret? Go to the [Spotify deve
 
 ## How the app looks
 
-### Home screen
+![Home screen](https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/home_screen.jpg?raw=true)
+
+The home screen has a search bar where the user enters their query and results are displayed underneath in a scrollable ListView. There is also a selection bar below the search bar so that results can be filtered by albums, artists and tracks.
