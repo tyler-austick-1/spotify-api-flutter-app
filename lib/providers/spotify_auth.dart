@@ -36,8 +36,10 @@ class SpotifyAuth with ChangeNotifier{
     as they have a valid token stored on the device.
   */
   Future<void> authorise() async {
-    const _clientId = 'a1e315a6f9a9406c9bdb6d51c5f8e03c';
-    const _clientSecret = '6626e9762e9547a69ec729584e604861';
+    const _clientId = 'a1e315a6f9a9406c9bdb6d51c5f8e03c';       // INSERT YOUR ID HERE
+    const _clientSecret = '6626e9762e9547a69ec729584e604861';   // INSERT YOUR SECRET HERE
+
+    // Yes the above secret has been changed so use your own ;)
 
     final url = Uri.parse('https://accounts.spotify.com/api/token');
 

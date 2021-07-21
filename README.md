@@ -23,6 +23,7 @@ to:
 and of course to present the data with a nice user interface!
 
 ## Getting Started
+***Note that for the code to work with the most recent version of Flutter you must change your sdk to the following in the pubspec.yaml file sdk: ">=2.11.0 <3.0.0"***
 
 The app currently uses the [Client Credentials Flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow) to get an access token from Spotify. This means that the user does not need to login to a Spotify account to use the app. If you want to adjust the authorisation code to work with your own project, all you need to do is change the _clientId and _clientSecret constants in the authorise method of the spotify_auth.dart file.
 
