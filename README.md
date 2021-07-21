@@ -2,13 +2,13 @@
 
 ## Contents
 
-- (Description)[#description]
-- (Getting Started)[#getting-started]
-- (The User Interface)[#the-user-interface]
-  - (Home Screen)[#home-screen]
-  - (Artist Screen)[#artist-screen]
-  - (Album Screen)[#album-screen]
-  - (Track Screen)[#track-screen]
+- (Description)[#-description]
+- (Getting Started)[#-getting-started]
+- (The User Interface)[#-the-user-interface]
+  - (Home Screen)[#-home-screen]
+  - (Artist Screen)[#-artist-screen]
+  - (Album Screen)[#-album-screen]
+  - (Track Screen)[#-track-screen]
 
 ## Description
 
@@ -32,30 +32,30 @@ Not sure where to find your client ID and client secret? Go to the [Spotify deve
 
 ### Home Screen
 
-<img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/home_screen.jpg" alt="Home screen" width="50%" height="50%"/>
+<img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/home_screen.jpg" alt="Home screen" width="40%" height="40%"/>
 
 The home screen has a search bar where the user enters their query and results are displayed underneath in a scrollable ListView. There is also a selection bar below the search bar so that results can be filtered by albums, artists and tracks.
 
 ### Artist Screen
 
 <p float="left">
-  <img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/artist_screen_1.jpg" alt="Artist screen 1" width="50%" height="50%"/>
-  <img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/artist_screen_2.jpg" alt="Artist screen 2" width="50%" height="50%"/> 
+  <img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/artist_screen_1.jpg" alt="Artist screen 1" width="40%" height="40%"/>
+  <img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/artist_screen_2.jpg" alt="Artist screen 2" width="40%" height="40%"/> 
 </p>
 
-Once an artist tile is tapped on from the (Home screen)[#home-screen] this screen is displayed to the user which shows all of the artist's albums.
+Once an artist tile is tapped on from the (Home screen)[#-home-screen] this screen is displayed to the user which shows all of the artist's albums.
 
 ### Album Screen
 
-<img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/album_screen.jpg" alt="Album screen" width="50%" height="50%"/>
+<img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/album_screen.jpg" alt="Album screen" width="40%" height="40%"/>
 
-This screen is displayed from tapping on an album tile from the (Home screen)[#home-screen] or (Artist screen)[#artist-screen]
+This screen is displayed from tapping on an album tile from the (Home screen)[#-home-screen] or (Artist screen)[#-artist-screen]
 
 ### Track Screen
 
 <p float="left">
-  <img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/track_screen_1.jpg" alt="Track screen 1" width="50%" height="50%"/>
-  <img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/track_screen_2.jpg" alt="Track screen 2" width="50%" height="50%"/> 
+  <img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/track_screen_1.jpg" alt="Track screen 1" width="40%" height="40%"/>
+  <img src="https://github.com/tyler-austick-1/spotify-api-flutter-app/blob/main/images/track_screen_2.jpg" alt="Track screen 2" width="40%" height="40%"/> 
 </p>
 
-Now this is the interesting screen of the app where the data about a track is displayed. This is the main purpose of the app where musicians can quickly look up the key or tempo of a song or just to see how different tracks compare on metrics such as happiness and danceability. This screen is displayed from tapping on a track tile on the (Home screen)[#home-screen] or (Album screen)[#album-screen]
+Now this is the interesting screen of the app where the data about a track is displayed. This is the main purpose of the app where musicians can quickly look up the key or tempo of a song or just to see how different tracks compare on metrics such as happiness and danceability. This screen is displayed from tapping on a track tile on the (Home screen)[#-home-screen] or (Album screen)[#-album-screen]
